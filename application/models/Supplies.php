@@ -20,7 +20,7 @@ class Supplies extends MY_Model {
             ['field'=>'name', 'label'=>'Item name'],
             ['field'=>'qty_onhand', 'label'=>'Item onhand'],
             ['field'=>'qty_inventory', 'label'=>'Item stock', 'rules'=> 'required|decimal'],
-            ['field'=>'price', 'label'=>'Price'],
+            ['field'=>'price', 'label'=>'Price', 'rules'=> 'required|decimal']
         ];
         return $config;
     }
@@ -31,7 +31,7 @@ class Supplies extends MY_Model {
             ['field'=>'name', 'label'=>'Item name','rules'=> 'required'],
             ['field'=>'qty_onhand', 'label'=>'Item onhand','rules'=> 'required|decimal'],
             ['field'=>'qty_inventory', 'label'=>'Item stock', 'rules'=> 'required|decimal'],
-            ['field'=>'price', 'label'=>'Price'],
+            ['field'=>'price', 'label'=>'Price', 'rules'=> 'required|decimal']
         ];
         return $config;
     }

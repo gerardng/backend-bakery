@@ -67,7 +67,8 @@ class Maintenance extends Rest_Controller
     {
         $incoming = key($this->put());
         // decode record before anything, as assoc array
-        $record = json_decode($incoming,true);
+        //$record = json_decode($incoming,true);
+        $record = json_decode($incoming, JSON_PRESERVE_ZERO_FRACTION);
 
         // item ID specified as segment or query parameter
         if (($key == null) || ($key == 'id'))
