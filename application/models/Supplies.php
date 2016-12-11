@@ -13,7 +13,7 @@ class Supplies extends MY_Model {
     {
         parent::__construct();
     }
-
+    //set rules to check for Receiving edit form on Receiving Page before update item to database
     function rules() {
         $config = [
             ['field'=>'id', 'label'=>'Menu code'],
@@ -24,7 +24,7 @@ class Supplies extends MY_Model {
         ];
         return $config;
     }
-
+    //set rules to check for Receiving edit form on Admin Page before update item to database
     function adminSupplyRules() {
         $config = [
             ['field'=>'id', 'label'=>'Menu code'],
@@ -35,22 +35,5 @@ class Supplies extends MY_Model {
         ];
         return $config;
     }
-
-
-	// retrieve a single quote
-	/*public function get($which)
-	{
-		// iterate over the data until we find the one we want
-		foreach ($this->data as $record)
-			if ($record['id'] == $which)
-				return $record;
-		return null;
-	}
-
-	// retrieve all of the quotes
-	public function all()
-	{
-		return $this->data;
-	}*/
 
 }
