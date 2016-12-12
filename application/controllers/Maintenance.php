@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: kwanc
- * Date: 2016-12-07
- * Time: 4:58 PM
- */
 require APPPATH . '/third_party/restful/libraries/Rest_controller.php';
 class Maintenance extends Rest_Controller
 {
@@ -45,21 +39,19 @@ class Maintenance extends Rest_Controller
     }
 
     // Handle an incoming POST - add a new menu item
-    function index_post()
-    {
-        $key = $this->get('id');
-        $record = array_merge(array('id' => $key), $_POST);
-        $this->supplies->add($record);
-        $this->response(array('ok'), 200);
+    function index_post() {
+        $this->crud_post($this->post());
     }
 
     // Handle an incoming POST - add a new menu item
-    function item_post()
-    {
-        $key = $this->get('id');
-        $record = array_merge(array('id' => $key), $_POST);
-        $this->supplies->add($record);
-        $this->response(array('ok'), 200);
+    function item_post($key = null) {
+        $record = json_decode($this->post(), true);
+
+        if (($key == null) || ($key == 'id')) {
+            $key = $this->get('id');
+            $record = array_merge(array('id' => $key), $record);
+        }
+        $this->crud_post($record);
     }
 
     // Handle an incoming PUT - update a new menu item - ID in URL
@@ -76,6 +68,7 @@ class Maintenance extends Rest_Controller
         }
         $this->crud_put($record);
     }
+
     // crud - update an item in our table
     private function crud_put($record = null)
     {
@@ -95,6 +88,29 @@ class Maintenance extends Rest_Controller
         // proceed with update
         $this->supplies->update($record);
         // check for DB errors
+        $oops = $this->db->error();
+        if (empty($oops['code']))
+            $this->response(array('ok'), 200);
+        else
+            $this->response($oops, 400);
+    }
+
+    // crud - add an item in our table
+    private function crud_post($record = null) {
+        $key = $record['id'];
+
+        if (!isset($key)) {
+            $this->response(array('error' => 'Create: No supply specified'), 406);
+            return;
+        }
+
+        if ($this->supplies->exists($key)) {
+            $this->response(array('error' => 'Create: Supply ' . $key . ' already exists'), 406);
+            return;
+        }
+
+        $this->supplies->add($record);
+
         $oops = $this->db->error();
         if (empty($oops['code']))
             $this->response(array('ok'), 200);
